@@ -1,0 +1,79 @@
+REMARK TALOS-N Protein Chi1 Conformation Prediction Table
+REMARK  Prediction Summary for Chemical Shift Input 2mfa.tab
+REMARK 
+REMARK  Q_Gm is the probability to be with a g- (gauche-) rotamer.
+REMARK  Q_Gp is the probability to be with a g+ (gauche+) rotamer.
+REMARK  Q_t  is the probability to be with a t  (trans)   rotamer.
+REMARK 
+REMARK  CS_COUNT is the number of chemical shifts in the query triplets
+REMARK  used to predict chi1 conformation.
+REMARK 
+REMARK  CLASS is the classification of the prediction result:
+REMARK    na: no chi1 prediction was made.
+REMARK    g-/g+/t: 3-state chi1 prediction
+REMARK 
+REMARK Reference:
+REMARK  Y. Shen, and A. Bax:
+REMARK  Protein backbone and sidechain torsion angles predicted from 
+REMARK  NMR chemical shifts using artificial neural networks
+REMARK  J. Biomol. NMR, 56, 227-241(2013).
+REMARK 
+REMARK  TALOS-N Version 4.12 Rev 2015.147.15.40 TALOSN_INFO
+
+
+VARS   RESID RESNAME CS_COUNT Q_Gm Q_Gp Q_T CLASS CHI1 DCHI1 
+FORMAT %4d %s %2d %5.3f %5.3f %5.3f  %-2s %6.1f %6.1f
+
+   1 L  8 0.333 0.333 0.333  na 9999.0 9999.0
+   2 K 13 0.642 0.096 0.262  g-  -64.9   10.9
+   3 c 14 0.480 0.199 0.321  na 9999.0 9999.0
+   4 F 14 0.910 0.030 0.060  g-  -65.4    7.6
+   5 Q 14 0.589 0.066 0.345  na 9999.0 9999.0
+   6 H 14 0.838 0.081 0.081  g-  -59.7   10.8
+   8 K 13 0.584 0.134 0.282  na 9999.0 9999.0
+   9 V 14 0.056 0.056 0.888  t  -179.3    5.1
+  10 V 15 0.418 0.089 0.494  na 9999.0 9999.0
+  11 T 15 0.819 0.111 0.071  g-  -56.4    8.4
+  12 c 14 0.357 0.287 0.357  na 9999.0 9999.0
+  13 H 14 0.586 0.165 0.249  na 9999.0 9999.0
+  14 R 14 0.474 0.120 0.406  na 9999.0 9999.0
+  15 D 15 0.385 0.463 0.152  na 9999.0 9999.0
+  16 M 15 0.613 0.104 0.284  g-  -63.7    9.2
+  17 K 15 0.697 0.104 0.199  g-  -62.7    9.4
+  18 F 15 0.785 0.189 0.026  g-  -60.0   11.6
+  19 c 15 0.354 0.205 0.441  na 9999.0 9999.0
+  20 Y 15 0.415 0.080 0.505  na 9999.0 9999.0
+  21 H 15 0.642 0.068 0.290  g-  -59.0    8.5
+  22 N 15 0.618 0.046 0.336  g-  -72.9   11.2
+  23 T 14 0.074 0.811 0.115  g+   62.0    7.7
+  25 M 12 0.694 0.092 0.213  g-  -63.9   11.9
+  27 F 13 0.752 0.053 0.195  g-  -67.5    9.9
+  28 R 15 0.471 0.139 0.391  na 9999.0 9999.0
+  29 N 15 0.639 0.180 0.180  g-  -68.2    9.5
+  30 L 15 0.766 0.047 0.187  g-  -64.9    7.2
+  31 K 15 0.602 0.107 0.291  g-  -64.8    7.2
+  32 L 15 0.633 0.041 0.326  g-  -65.6   15.9
+  33 I 14 0.873 0.063 0.063  g-  -58.9    7.6
+  34 L 14 0.599 0.036 0.364  na 9999.0 9999.0
+  35 Q 13 0.488 0.086 0.426  na 9999.0 9999.0
+  37 c 14 0.333 0.333 0.333  na 9999.0 9999.0
+  38 S 15 0.084 0.748 0.169  g+   69.2   17.5
+  39 S 15 0.352 0.567 0.081  na 9999.0 9999.0
+  40 S 15 0.125 0.437 0.437  na 9999.0 9999.0
+  41 c 15 0.435 0.053 0.512  na 9999.0 9999.0
+  42 S 15 0.314 0.515 0.171  na 9999.0 9999.0
+  43 E 14 0.575 0.213 0.213  na 9999.0 9999.0
+  44 T 14 0.495 0.429 0.077  na 9999.0 9999.0
+  45 E 13 0.363 0.204 0.432  na 9999.0 9999.0
+  46 N 14 0.703 0.118 0.179  g-  -64.2    8.1
+  47 N 13 0.509 0.077 0.414  na 9999.0 9999.0
+  48 K 14 0.607 0.127 0.267  g-  -64.0    8.2
+  49 c 14 0.349 0.544 0.107  na 9999.0 9999.0
+  50 c 15 0.395 0.336 0.270  na 9999.0 9999.0
+  51 S 15 0.289 0.553 0.158  na 9999.0 9999.0
+  52 T 15 0.106 0.787 0.106  g+   59.8    9.3
+  53 D 15 0.583 0.208 0.208  na 9999.0 9999.0
+  54 R 15 0.333 0.333 0.333  na 9999.0 9999.0
+  55 c 15 0.333 0.333 0.333  na 9999.0 9999.0
+  56 N 16 0.337 0.359 0.304  na 9999.0 9999.0
+  57 K 11 0.333 0.333 0.333  na 9999.0 9999.0

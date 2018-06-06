@@ -1,0 +1,104 @@
+REMARK TALOS-N Protein Secondary Chemical Shift Table for hepcidin.tab
+REMARK 
+REMARK  SHIFT is secondary chemical shift
+REMARK 
+REMARK  CS_OBS is the original chemical shift
+REMARK 
+REMARK  CS_ADJ is the adjustment used to calculate SHIFT.
+REMARK 
+REMARK  TALOS-N Version 4.12 Rev 2015.147.15.40 TALOSN_INFO
+
+DATA FIRST_RESID 1
+DATA SEQUENCE GcRFccNccPNMSGcGVccRF
+
+VARS   RESID RESNAME ATOMNAME SHIFT CS_OBS CS_ADJ 
+FORMAT %4d   %1s     %4s      %8.3f %9.3f %9.3f
+
+   1   GLY       HA        -0.067     3.880     3.947
+   1   GLY       CA        -2.043    43.100    45.143
+   2   cys       HA         0.933     5.580     4.647
+   2   cys       CA         0.183    56.000    55.817
+   2   cys       CB         6.197    47.000    40.803
+   2   cys       HN         0.728     8.910     8.182
+   3   ARG        N        -0.473   120.700   121.173
+   3   ARG       HA         0.329     4.680     4.351
+   3   ARG       CA        -1.439    54.700    56.139
+   3   ARG       CB         2.987    33.300    30.313
+   3   ARG       HN         0.291     8.650     8.359
+   4   PHE       HA         0.392     4.940     4.548
+   4   PHE       CA        -0.621    57.300    57.921
+   4   PHE       CB         0.431    39.600    39.169
+   4   PHE       HN         0.495     8.830     8.335
+   5   cys       HA         0.170     4.790     4.620
+   5   cys       CA        -2.006    53.900    55.906
+   5   cys       CB         0.637    41.500    40.863
+   5   cys       HN         0.338     8.810     8.472
+   6   cys       HA         0.496     5.100     4.604
+   6   cys       CA        -0.732    55.200    55.932
+   6   cys       CB         5.692    46.500    40.808
+   6   cys       HN         0.164     8.800     8.636
+   7   ASN       HA        -0.153     4.510     4.663
+   7   ASN       CA         1.339    54.800    53.461
+   7   ASN       CB        -1.535    37.200    38.735
+   7   ASN       HN         0.230     8.790     8.560
+   8   cys       HA         0.477     5.100     4.623
+   8   cys       CA         0.823    56.800    55.977
+   8   cys       CB         1.781    42.600    40.819
+   8   cys       HN        -0.241     8.000     8.241
+   9   cys       HA         0.369     5.040     4.671
+   9   cys       CA         0.576    55.100    54.524
+   9   cys       CB         1.278    41.300    40.022
+   9   cys       HN         0.426     8.820     8.394
+  10   PRO       HA        -0.206     4.230     4.436
+  10   PRO       CA         1.013    63.600    62.587
+  10   PRO       CB        -0.126    31.700    31.826
+  11   ASN       HA        -0.339     4.320     4.659
+  11   ASN       CA         1.282    54.500    53.218
+  11   ASN       CB         0.835    39.500    38.665
+  11   ASN       HN         0.443     8.830     8.387
+  12   MET        N        -0.317   119.000   119.317
+  12   MET       HA         0.059     4.500     4.441
+  12   MET       CA         0.082    55.600    55.518
+  12   MET       CB         2.085    34.800    32.715
+  12   MET       HN        -0.609     7.590     8.199
+  13   SER        N         5.497   121.200   115.703
+  13   SER       HA         0.170     4.650     4.480
+  13   SER       CA        -0.718    57.700    58.418
+  13   SER       CB         0.070    63.200    63.130
+  13   SER       HN         0.359     8.700     8.341
+  14   GLY        N         1.121   111.400   110.279
+  14   GLY       HA         0.116     4.090     3.974
+  14   GLY       CA        -0.864    44.300    45.164
+  14   GLY       HN        -0.067     8.290     8.357
+  15   cys        N         1.976   120.100   118.124
+  15   cys       HA         0.747     5.370     4.623
+  15   cys       CA        -0.413    55.300    55.713
+  15   cys       CB         6.021    46.800    40.779
+  15   cys       HN         0.455     8.660     8.205
+  16   GLY        N         1.213   111.900   110.687
+  16   GLY       HA        -1.104     2.925     4.029
+  16   GLY       CA         0.055    45.300    45.245
+  16   GLY       HN        -0.222     8.320     8.542
+  17   VAL        N         2.088   120.700   118.612
+  17   VAL       HA         0.311     4.350     4.039
+  17   VAL       CA         0.530    63.000    62.470
+  17   VAL       CB         0.456    32.300    31.844
+  17   VAL       HN         0.501     8.520     8.019
+  18   cys        N         7.298   127.200   119.902
+  18   cys       HA         0.429     5.110     4.681
+  18   cys       CA        -2.142    53.700    55.842
+  18   cys       CB        -0.443    40.400    40.843
+  18   cys       HN         0.772     9.250     8.478
+  19   cys        N         8.834   128.300   119.466
+  19   cys       HA         0.764     5.420     4.656
+  19   cys       CA        -0.480    55.500    55.980
+  19   cys       CB        -1.343    39.500    40.843
+  19   cys       HN         0.714     9.300     8.586
+  20   ARG       HA         0.209     4.560     4.351
+  20   ARG       CA        -1.039    55.100    56.139
+  20   ARG       CB         1.187    31.500    30.313
+  20   ARG       HN        -0.799     7.560     8.359
+  21   PHE       HA        -0.141     4.430     4.571
+  21   PHE       CA         1.689    59.500    57.811
+  21   PHE       CB         1.875    41.000    39.125
+  21   PHE       HN        -0.281     8.060     8.341

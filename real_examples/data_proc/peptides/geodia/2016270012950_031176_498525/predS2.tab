@@ -1,0 +1,37 @@
+REMARK  Predicted order parameter (S2) from backbone chemical shifts for geodia.tab
+REMARK    from David Wishart's RCI method, JACS, 127(43), 14970-14971
+
+VARS RESID RESNAME CS_CNT CS_CNT_R2 S2 
+FORMAT %4d %1s %2d %2d %8.3f 
+
+    1 D  8  3    0.379
+    2 V 13  5    0.416
+    3 S 13  5    0.526
+    4 P 13  3    0.688
+    5 c 13  5    0.859
+    6 F 15  5    0.900
+    7 c 15  5    0.919
+    8 V 15  5    0.879
+    9 E 15  5    0.854
+   10 D 15  5    0.839
+   11 E 15  5    0.840
+   12 T 15  5    0.779
+   13 S 14  5    0.627
+   14 G 14  4    0.596
+   15 A 14  5    0.617
+   16 K 15  5    0.776
+   17 T 15  5    0.851
+   18 c 15  5    0.901
+   19 V 13  5    0.878
+   20 P 13  3    0.859
+   21 D 13  5    0.861
+   22 N 15  5    0.877
+   23 c 14  5    0.883
+   24 D 13  4    0.807
+   25 A 12  4    0.655
+   26 S 13  4    0.495
+   27 R 13  5    0.392
+   28 G 14  4    0.302
+   29 T 14  5    0.235
+   30 N 13  5    0.174
+   31 P  8  3    0.154

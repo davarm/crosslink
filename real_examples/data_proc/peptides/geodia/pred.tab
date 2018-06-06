@@ -1,0 +1,72 @@
+REMARK TALOS-N Protein Backbone Torsion Angle Prediction Table
+REMARK  Prediction Summary for Chemical Shift Input geodia.tab
+REMARK 
+REMARK  PHI is the predicted torsion angle C(i-1) N(i)  CA(i) C(i)   (degrees).
+REMARK  PSI is the predicted torsion angle N(i)   CA(i) C(i)  N(i+1) (degrees).
+REMARK 
+REMARK  DPHI and DPSI are the estimated standard deviations of the
+REMARK  prediction errors in PHI and PSI (degrees).
+REMARK 
+REMARK  DIST is the TALOS-N database matching score.
+REMARK 
+REMARK  S2 is the Wishart RCI chemical shift order parameter,
+REMARK  JACS, 127(43), 14970-14971.
+REMARK 
+REMARK  COUNT is the number of database triplets used to form
+REMARK  the torsion angle predictions.
+REMARK 
+REMARK  CLASS is the classification of the prediction result:
+REMARK    None: no torsion prediction was made.
+REMARK 
+REMARK    Strong/Generous: majority consensus in database matches;
+REMARK    prediction is likely to be good.
+REMARK 
+REMARK    Warn: no consensus in database matches, do not use prediction.
+REMARK 
+REMARK    Dyn:  RCI-S2 value indicates that residue has dynamic conformation.
+REMARK 
+REMARK Reference:
+REMARK  Y. Shen, and A. Bax:
+REMARK  Protein backbone and sidechain torsion angles predicted from 
+REMARK  NMR chemical shifts using artificial neural networks
+REMARK  J. Biomol. NMR, 56, 227-241(2013).
+REMARK 
+REMARK  TALOS-N Version 4.12 Rev 2015.147.15.40 TALOSN_INFO
+
+DATA FIRST_RESID 1
+DATA SEQUENCE DVSPcFcVED ETSGAKTcVP DNcDASRGTN P
+
+VARS   RESID RESNAME PHI PSI DPHI DPSI DIST S2 COUNT CS_COUNT CLASS 
+FORMAT %4d %s %8.3f %8.3f %8.3f %8.3f %8.3f %5.3f %2d %2d %s
+
+   1 D 9999.000 9999.000    0.000    0.000    0.000 0.000  0  8 None
+   2 V  -77.760  143.742   10.456   10.871    0.808 0.384 10 13 Dyn
+   3 S  -70.325  138.809   11.977   11.438    0.703 0.497 25 13 Dyn
+   4 P  -64.004  144.317    7.713    5.419    0.731 0.671  9 13 Warn
+   5 c  -78.049  125.556   10.622   18.001    0.867 0.851 25 13 Strong
+   6 F -110.291  133.322   12.315    7.112    0.544 0.890 25 15 Strong
+   7 c -136.099  153.869   11.810   10.457    0.650 0.907 25 15 Strong
+   8 V -124.045  134.727   11.386   10.842    0.462 0.867 25 15 Strong
+   9 E -101.055  132.697   22.063   13.168    0.325 0.847 25 15 Strong
+  10 D  -77.747  121.619   13.358    9.883    0.258 0.837 25 15 Strong
+  11 E  -69.340  -25.564    7.947   11.647    0.190 0.833 25 15 Strong
+  12 T  -77.073  -35.101    9.030   10.245    0.159 0.762 25 15 Strong
+  13 S -108.678  -22.951   14.210    9.914    0.152 0.603 25 14 Strong
+  14 G   83.424    7.095    5.971    6.867    0.141 0.566 25 14 Dyn
+  15 A  -75.437  143.220    8.232    9.850    0.176 0.586 25 14 Dyn
+  16 K  -82.737  123.565    8.435    8.751    0.256 0.746 25 15 Strong
+  17 T -117.247  131.127   11.454    8.087    0.395 0.831 25 15 Strong
+  18 c -135.587  150.834   11.458   11.544    0.691 0.884 25 15 Strong
+  19 V -133.252  138.220   14.051   18.225    0.572 0.848 25 13 Strong
+  20 P  -64.882  148.267    6.529    7.998    0.457 0.828 25 13 Strong
+  21 D  -61.644  -31.213    4.229    7.950    0.450 0.820 25 13 Strong
+  22 N  -69.117  -26.758   10.092   17.025    0.415 0.829 25 15 Strong
+  23 c  -68.474  -34.349    5.825    5.802    0.428 0.812 25 14 Strong
+  24 D  -72.395  -28.772    7.996   14.360    0.451 0.740 25 13 Strong
+  25 A  -71.899  -29.601   10.691    7.822    0.459 0.554 25 12 Dyn
+  26 S  -80.146  -16.172   11.641   14.692    0.381 0.381 25 13 Dyn
+  27 R  -84.873   -9.539   11.583   10.087    0.417 0.288 25 13 Dyn
+  28 G   90.534   12.734   16.249   28.835    0.484 0.212 10 14 Dyn
+  29 T  -73.843  147.177    8.868   13.780    0.777 0.156 10 14 Dyn
+  30 N  -69.482  144.223    7.884   12.994    1.097 0.091 25 13 Dyn
+  31 P 9999.000 9999.000    0.000    0.000    0.000 0.000  0  8 None
