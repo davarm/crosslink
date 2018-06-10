@@ -19,7 +19,7 @@ from keras.layers import Dropout
 import math
 from sklearn.utils import class_weight
 from random import shuffle
-from neural_network import keras_prediction
+from neural_network_new import keras_prediction
 from collections import Counter
 
 ########################################################################
@@ -147,56 +147,14 @@ testing_inputs_list = [
             'cys_diff',
             'no_disulfides']
     
-########################################################################
-########################################################################
-#--------------------------------------------------------------------------
-# Store all individual PDBS in a list
-#--------------------------------------------------------------------------
-########################################################################
-########################################################################
-
-
-
-########################################################################
-########################################################################
-#--------------------------------------------------------------------------
-# Read the connectivity database into a pandas dataframe
-#--------------------------------------------------------------------------
-########################################################################
-########################################################################
-
-
-training_df = pd.read_csv('training_database.csv', sep = ',', skipinitialspace = False)
-
-
-#----------------------------------
-# The Desired Inputs to use for training
-#----------------------------------
-training_df = training_df.sample(frac=1).reset_index(drop=True)
-
-
-
-
-########################################################################
-########################################################################
-#----------------------------------
-# replace nuclei zeros with nan
-#----------------------------------
-########################################################################
-
-for nuclei in nuclei_list:
-  training_df[nuclei] = training_df[nuclei].replace(0,np.nan)
-training_df = training_df.reset_index(drop = True ) 
-
-
 
 
 
 testing_df_og              = pd.read_csv('all.csv', sep = ',', skipinitialspace = False)
 testing_df_og['cys_diff']  = testing_df_og['cys1_residue_number'] - testing_df_og['cys2_residue_number']    
 testing_df_og              = testing_df_og.reset_index(drop=True)
-testing_df              = testing_df_og[testing_inputs_list]
-
+testing_df                 = testing_df_og[testing_inputs_list]
+# print testing_df
 
 ########################################################################
 ########################################################################
@@ -207,7 +165,7 @@ testing_df              = testing_df_og[testing_inputs_list]
 for nuclei in nuclei_list:
   testing_df[nuclei] = testing_df[nuclei].replace(0,np.nan)
 
-
+print testing_df
 
 ########################################################################
 ########################################################################
@@ -258,46 +216,6 @@ for value in range(len(testing_df)):
 	results_prob[str(value)] = []
 
 
-########################################################################
-########################################################################
-#----------------------------------
-# START THE BAGGING PROCESS
-# TAKE 80% of the training_df, train and predict. 
-# Then increase by 10%, take 10%-90% and train.... 30%-100% + 0-10%
-# The ensemble function defined at the start does this 
-#----------------------------------
-########################################################################
-########################################################################
-fract =  (float(len(training_df)) * 0.9)
-fract = round(int(fract))
-start = 0
-s_fract = (float(len(training_df)) * 0.05)
-s_fract = round(int(s_fract))
-
-
-########################################################################
-########################################################################
-#--------------------------------------------------------------------------
-# Ensemble function. To take different ensembles for bagging
-#--------------------------------------------------------------------------
-########################################################################
-########################################################################
-
-
-
-def ensemble(training_dfx, start,stop ):
-	print 'START, STOP',start, stop   
-	if stop <= len(training_dfx):
-		ensemble = training_dfx[int(start):int(stop)]    
-
-	if stop > len(training_dfx) and start < len(training_dfx):
-		ensemble1 = training_dfx[int(start):] 
-		ensemble2 = training_dfx[:int(stop)-len(training_dfx)]
-		ensemble = pd.concat([ensemble1, ensemble2])
-	return (ensemble)
-
-
-
 columns =   ['PDB',
             'cys1',
             'cys2']
@@ -309,11 +227,7 @@ results_df['cys1'] = testing_df_og['cys1_residue_number']
 results_df['cys2'] = testing_df_og['cys2_residue_number']
 
 i = 0
-while i <9:
-  print 'TRAINING ENSMEBLE',i 
-  print 'start',start,'stop',fract
-  ensemble_df    = ensemble(training_df, start,fract)
-
+while i < 9:
   ########################################################################
   ########################################################################
   #----------------------------------
@@ -321,7 +235,7 @@ while i <9:
   #----------------------------------
   ########################################################################
   #######################################################################
-  prediction     = keras_prediction(ensemble_df, testing_inputs)
+  prediction     = keras_prediction(testing_inputs, i)
   max_prediction = prediction[1]
   prediction     = prediction[0]
    
@@ -339,11 +253,7 @@ while i <9:
   	results[str(k)].append(pred)
   	results_prob[str(k)].append(max_prediction[k])
   	
-
-
-
-  fract = fract + s_fract
-  start = start + s_fract        
+    
   i = i+1
 
 

@@ -89,6 +89,8 @@ def keras_prediction(training_ensemble, testing_inputs):
         training_inputs_scaled = training_inputs_scaled.replace(np.nan,0)
         training_inputs_scaled = training_inputs_scaled.as_matrix()
         testing_inputs_scaled  = testing_inputs_scaled.replace(np.nan,0)
+        testing_inputs_scaled.to_csv('test_scaled.csv')
+        print testing_inputs_scaled
         testing_inputs_scaled  = testing_inputs_scaled.as_matrix()
 
 
