@@ -29,6 +29,27 @@ from keras.layers import Dropout
 #-----------------------------------------------------------------------
 ########################################################################
 ########################################################################
+normalise_list = [  
+            'cys1_Ha',
+            'cys2_Ha',
+            'cys1_N',
+            'cys2_N',
+            'cys1_Hn',
+            'cys2_Hn',
+            'cys1_before Hn',
+            'cys2_before Hn',
+            'cys1_after Hn',
+            'cys2_after Hn',
+            'cys1_before Ca',
+            'cys2_before Ca',
+            'cys1_after Ca',
+            'cys2_after Ca',
+            'cys1_before Ha',
+            'cys2_before Ha',
+            'cys1_after Ha',
+            'cys2_after Ha',
+            'cys_diff',
+            'no_disulfides']
 
 import keras.backend as K
 def matthews_correlation(y_true, y_pred):
@@ -73,19 +94,19 @@ def keras_prediction(training_ensemble, testing_inputs,testing_target):
         testing_inputs_scaled = testing_inputs.copy(deep = True)
         # TEST SCALE
         column_names = list(testing_inputs)
-        for name in column_names:
+        for name in normalise_list:
             meanx = training_inputs[name].mean()
             stdx = training_inputs[name].std()
-            print testing_inputs_scaled[name][0]
-            print training_inputs_scaled[name][0]
+            #print testing_inputs_scaled[name][0]
+            #print training_inputs_scaled[name][0]
             training_inputs_scaled[name] -= meanx
             training_inputs_scaled[name] /= stdx
             testing_inputs_scaled[name] -= meanx
             testing_inputs_scaled[name] /= stdx
-            print testing_inputs_scaled[name][0]
-            print training_inputs_scaled[name][0]
+            #print testing_inputs_scaled[name][0]
+            #print training_inputs_scaled[name][0]
 
-
+        print testing_inputs_scaled
         training_inputs_scaled = training_inputs_scaled.replace(np.nan,0)
         training_inputs_scaled = training_inputs_scaled.as_matrix()
         testing_inputs_scaled  = testing_inputs_scaled.replace(np.nan,0)
