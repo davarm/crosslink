@@ -82,7 +82,7 @@ input_list = [
                    'cys2_x3_array1']
 
 
-testing_df = pd.read_csv('nmr_validation_set.csv', sep = ',', skipinitialspace = False)
+testing_df = pd.read_csv('2n8e_connectivity.csv', sep = ',', skipinitialspace = False)
 testing_inputs = testing_df[input_list]
 testing_inputs = testing_inputs.astype(float)
 
