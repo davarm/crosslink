@@ -98,8 +98,8 @@ if len(testing_1_df) != 0:
 
 testing_2_df  = testing_df.loc[testing_df['x1'] != (-60)]
 if len(testing_2_df) != 0:
-	testing_2_df  = split_columns(testing_2_df,'x1_array')
 	testing_2_df  = testing_2_df.reset_index(drop=True)
+	testing_2_df  = split_columns(testing_2_df,'x1_array')
 	testing_2_df  =  testing_2_df[['PDB',
 					'residue',
 					'x1_array0',

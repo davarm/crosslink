@@ -134,7 +134,7 @@ for cysteine in cys_residues:
 			if cysteine == 1 or cysteine == len(sequence):
 				continue
 			cys_before  = str(cysteine-1)
-			cys_after  = str(cysteine+1)
+			cys_after   = str(cysteine+1)
 			cysteine    = str(cysteine)
 
 			#------------------------------------------------------------------------
@@ -162,7 +162,7 @@ for cysteine in cys_residues:
 			
 			for nuclei in before_nuclei_list:
 				cysteine_dict['before_'+nuclei].append(chemical_shift(cys_before,nuclei))
-				cysteine_dict['after_'+nuclei].append(chemical_shift(cys_before,nuclei))
+				cysteine_dict['after_'+nuclei].append(chemical_shift(cys_after,nuclei))
 			#------------------------------------------------------------------------
 			# Adding in residues before
 			#------------------------------------------------------------------------
