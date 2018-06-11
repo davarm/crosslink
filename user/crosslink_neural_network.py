@@ -11,7 +11,7 @@ from keras.layers.normalization import BatchNormalization
 from keras.models import load_model
 
 path = "./neural_network/"
-training_inputs = pd.read_csv('training_database.csv')
+training_inputs = pd.read_csv(path+'training_database.csv')
 
 
 #########################################################################################################
@@ -26,7 +26,7 @@ def keras_prediction(testing_inputs,i):
     #########################################################################################################
     # Scale the data by substracting the mean and then dividing by the standard deviation for each column
     # Mean and standard deviation based on the training_database values
-    # Results as per Francois Chollet: Deep Learning with Python (2017). Manning Publications
+    # Scaling based on as per Francois Chollet: Deep Learning with Python (2017). Manning Publications
     #####################################################################################################
     for name in column_names:
         meanx = training_inputs[name].mean()
