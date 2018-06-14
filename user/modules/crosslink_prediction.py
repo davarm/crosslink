@@ -24,44 +24,44 @@ from collections import Counter
 ########################################################################
 
 nuclei_list = [  
-            'cys1_Ha',
-            'cys2_Ha',
+            'cys1_HA',
+            'cys2_HA',
             'cys1_N',
             'cys2_N',
-            'cys1_Hn',
-            'cys2_Hn',
-            'cys1_before Hn',
-            'cys2_before Hn',
-            'cys1_after Hn',
-            'cys2_after Hn',
-            'cys1_before Ca',
-            'cys2_before Ca',
-            'cys1_after Ca',
-            'cys2_after Ca',
-            'cys1_before Ha',
-            'cys2_before Ha',
-            'cys1_after Ha',
-            'cys2_after Ha']
+            'cys1_HN',
+            'cys2_HN',
+            'cys1_before_HN',
+            'cys2_before_HN',
+            'cys1_after_HN',
+            'cys2_after_HN',
+            'cys1_before_CA',
+            'cys2_before_CA',
+            'cys1_after_CA',
+            'cys2_after_CA',
+            'cys1_before_HA',
+            'cys2_before_HA',
+            'cys1_after_HA',
+            'cys2_after_HA']
 
 input_list = [
-                   'cys1_Ha',
-                   'cys2_Ha',
+                   'cys1_HA',
+                   'cys2_HA',
                    'cys1_N',
                    'cys2_N',
-                   'cys1_Hn',
-                   'cys2_Hn',
-                   'cys1_before Hn',
-                   'cys2_before Hn',
-                   'cys1_after Hn',
-                   'cys2_after Hn',
-                   'cys1_before Ca',
-                   'cys2_before Ca',
-                   'cys1_after Ca',
-                   'cys2_after Ca',
-                   'cys1_before Ha',
-                   'cys2_before Ha',
-                   'cys1_after Ha',
-                   'cys2_after Ha',
+                   'cys1_HN',
+                   'cys2_HN',
+                   'cys1_before_HN',
+                   'cys2_before_HN',
+                   'cys1_after_HN',
+                   'cys2_after_HN',
+                   'cys1_before_CA',
+                   'cys2_before_CA',
+                   'cys1_after_CA',
+                   'cys2_after_CA',
+                   'cys1_before_HA',
+                   'cys2_before_HA',
+                   'cys1_after_HA',
+                   'cys2_after_HA',
                    'cys_diff',
                    'no_disulfides',
                    'cys1_ss_array0',
@@ -117,8 +117,8 @@ def crosslink_prediction(testing_df):
   
   results_df         = pd.DataFrame(index = range(len(testing_df)),columns = columns)
   results_df['PDB' ] =  testing_df['PDB']
-  results_df['cys1'] = testing_df['cys1_residue_number']
-  results_df['cys2'] = testing_df['cys2_residue_number']
+  results_df['cys1'] = testing_df['cys1_residue']
+  results_df['cys2'] = testing_df['cys2_residue']
   
   
   ########################################################################

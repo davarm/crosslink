@@ -6,25 +6,28 @@ import numpy as np
 from collections import OrderedDict
 import os,sys
 
+######################################
+#------------------------------------
 # Script to generate the required inputs for the CrossLink program
 # Chemical shifts , sequence and secondary are extracted from TALOS-N files (README)
 # The program does not predict termini cysteines and therefore they are excluded
 # If chemical shifts are unassigned they are designated as '0'
+# Useres MUST MANUALLY enter in X1 angles to the csv file after the program has run
 #
-#				: ./generating_crosslink_inputs.py 2n8e
-#
-#
+#	Example: ./generating_crosslink_inputs.py 2n8e
+#------------------------------------
+######################################
 
 peptide = sys.argv[1]
 path    = "./peptides/"+peptide
 
 
-#----------------------------------
-#----------------------------------
+######################################
+#------------------------------------
 # Read the sequence and identify all oxidised Cys residues
 # NOTE: OXIDISED CYS RESIDUES MUST BE LOWERCASE 'c' IN THE TALOS .SEQ FILE
-#----------------------------------
-#----------------------------------
+#------------------------------------
+######################################
 
 with open(path+'/'+peptide+'.seq') as f:
 	sequence = f.readline()
@@ -39,9 +42,13 @@ for k,residue in enumerate(sequence):
 		sequence_dict['0'                 ] = 'TERMINAL'
 		sequence_dict[str(len(sequence)+1)] = 'TERMINAL'
 
-#------------------------------------------------------------------------
+
+######################################
+#------------------------------------
 # Create ordered dictionaries to store all relevant information
-#------------------------------------------------------------------------
+#------------------------------------
+######################################
+
 cysteine_dict             =  OrderedDict()
 nuclei_list               = ['HA','CB','CA','HN','N']
 before_nuclei_list        = ['HA','CA','HN']
@@ -56,17 +63,23 @@ for nuclei in before_nuclei_list:
 	cysteine_dict['before_' + nuclei] = []
 	cysteine_dict['after_' + nuclei ] = []
 	
-
+######################################
+#------------------------------------
 # Initiate dataframe to store information
+#------------------------------------
+######################################
+
 df = pd.DataFrame()
 
 
 
-#--------------------------------------------------------------------------------
+######################################
+#------------------------------------
 # Storing chemical shifts by residue number and nuclei in experimenatl_shift dict
 # Chemical shifts stored in the TALOS-N format '.tab' file
 # Store in the dicitonary as a combination of residue number and nuclei type
-#---------------------------------------------------------------------------------
+#------------------------------------
+######################################
 
 adjusted_chemical_shift_dict = {}
 get = open(path+'/predAdjCS.tab','r') 
@@ -84,7 +97,7 @@ for line in get:
 			continue
 		if 'DATA SEQUENCE' in line:
 			continue
-
+			
 		# Take chemical shifts and strore into dictionary 		
 		lines = line.split(' ')
 		try:
@@ -94,9 +107,11 @@ for line in get:
 	
 
 
-#----------------------------------
+######################################
+#------------------------------------
 # Add In secondary structure
-#----------------------------------
+#------------------------------------
+######################################
 ss_dict = {}
 secondary_structure_list = [
 	'H',
@@ -122,11 +137,14 @@ for line in get:
 		ss_hot_array                                     = [str(x) for x in ss_hot_array]
 		ss_hot_array                                     = ",".join(ss_hot_array)
 		ss_dict[line[0]] = ss_hot_array
-#---------------------------------------------------------------------------------
+
+######################################
+#-------------------------------------
 # All of the shift and secondary structure information has been stored in dictionaries
-# Can now go through each connectivity in the previously stored 'Connectivity list'
-# Start to assemble information
-#---------------------------------------------------------------------------------
+# Iterate through each cysteine and extract required inputs
+# Save in the 'cysteine_dict'
+######################################
+#------------------------------------
 
 for cysteine in cys_residues:
 			if cysteine == 1 or cysteine == len(sequence):
@@ -137,10 +155,6 @@ for cysteine in cys_residues:
 
 			#------------------------------------------------------------------------
 			# CHEMICAL SHIFTS FOR CYSTEINES 
-			#------------------------------------------------------------------------
-
-
-			#------------------------------------------------------------------------
 			# IF CHEMICAL SHIFT ISN"T ASSIGNED RETURN AS ZERO
 			#------------------------------------------------------------------------
 
@@ -152,17 +166,19 @@ for cysteine in cys_residues:
 				return (value)
 
 			#------------------------------------------------------------------------
-			# STORE IN DICT
+			# Store in cysteine_dict
+			# Add in chemical shifts of neighbouring residues
 			#------------------------------------------------------------------------
 
 			for nuclei in nuclei_list:
-				cysteine_dict[nuclei].append(chemical_shift(cysteine,nuclei       ))
+				cysteine_dict[nuclei].append(chemical_shift(cysteine,nuclei))
 			
 			for nuclei in before_nuclei_list:
 				cysteine_dict['before_'+nuclei].append(chemical_shift(cys_before,nuclei))
 				cysteine_dict['after_'+nuclei].append(chemical_shift(cys_after,nuclei))
+
 			#------------------------------------------------------------------------
-			# Adding in residues before
+			# Add secondary structure
 			#------------------------------------------------------------------------
 			
 			cysteine_dict['ss_array'].append(ss_dict[cysteine])
@@ -172,10 +188,11 @@ for cysteine in cys_residues:
 			cysteine_dict['PDB'].append(peptide)
 			cysteine_dict['residue'].append(cysteine)
 
-#------------------------------------------------------------------------
-# ADD all stored in the cysteine dict to DF
-#------------------------------------------------------------------------
-
+######################################
+#-------------------------------------
+# Add information from dictionary to dataframe
+######################################
+#------------------------------------
 for key in cysteine_dict:
 	value   = np.array(cysteine_dict[key])
 	df[key] = (value)

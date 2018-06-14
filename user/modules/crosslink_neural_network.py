@@ -13,7 +13,6 @@ from keras.models import load_model
 path = "./neural_network/"
 training_inputs = pd.read_csv('./modules/training_database.csv')
 
-
 #########################################################################################################
 # Function returns the prediction 0 == Not Connected, 1 == Connected
 # and the prrobability of the prediction
