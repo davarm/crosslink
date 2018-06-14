@@ -15,11 +15,14 @@ The workflow of the program is :
   - For each individual pairing predict if cysteines are bonded or not based on a neural network. Inputs include chemical shift and           structural inputs
 
 ![Alt text](./images/method.png)
-![Alt text](./images/accuracy.png | width=10)
 
 
 # Use
 - The suppor vector machine was developed in scikit learn
 - The neural network was developed with Theano using Keras frontend
 
-
+### Generating Inputs (user directory)
+The inputs uses adjusted chemical shifts as well as predicted backbone dihedral angles from the Talos-N program (Shen and Bax, 2013). In peptides directory add new file, with output from Talos-N (with the predAdjCS.tab and pred.tab files).
+Run generating_crosslink_inputs.py
+This will produce a file called peptide_crosslink.csv. In this file YOU MUST MANUALLY ENTER X1 angles as either -60, 60 or 180.
+Then run the connectivity_prediction.py file
