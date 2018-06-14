@@ -15,7 +15,7 @@ The workflow of the program is :
   - For each individual pairing predict if cysteines are bonded or not based on a neural network. Inputs include chemical shift and           structural inputs
 
 ![Alt text](./images/method.png)
-![Alt text](./images/accuracy.png)
+![Alt text](./images/accuracy.png =10x10)
 
 
 # Use
