@@ -98,7 +98,7 @@ training_df     = training_df.drop('x3',1)
 #----------------------------------
 scaler          = preprocessing.MinMaxScaler().fit(training_df)
 training_scaled = scaler.transform(training_df)
-clf_svm1             = svm.SVC(kernel='rbf',gamma=0.4,C=20,probability=True)
+clf_svm1        = svm.SVC(kernel='rbf',gamma=0.4,C=20,probability=True)
 clf_svm1.fit(training_scaled,training_target)
 
 
@@ -147,10 +147,12 @@ training_df     = training_df.drop('x3',1)
 #----------------------------------
 #----------------------------------
 
-scaler = preprocessing.StandardScaler().fit(training_df)
+scaler          = preprocessing.StandardScaler().fit(training_df)
 training_scaled =scaler.transform(training_df)
-clf_svm2=svm.SVC(kernel='rbf',gamma=0.5,C=1,probability=True)
+clf_svm2        =svm.SVC(kernel='rbf',gamma=0.5,C=1,probability=True)
 clf_svm2.fit(training_scaled,training_target)
+
+
 joblib.dump(clf_svm2, 'SVM_2.pkl')
 scalerfile_svm2 = 'scaler_SVM_2.sav'
 pickle.dump(scaler, open(scalerfile_svm2, 'wb'))
