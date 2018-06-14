@@ -1,26 +1,13 @@
 from numpy.random import seed
 seed(1)
-from tensorflow import set_random_seed
-set_random_seed(2)
-from sklearn import preprocessing
 import numpy as np
-from sklearn.metrics import *
 from random import shuffle
 import pandas as pd
 from pandas import Series
-import keras
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.wrappers.scikit_learn import KerasClassifier
-from keras.utils import np_utils
-from keras.layers.normalization import BatchNormalization
-#from graph_lost import plot_graph
-from keras.optimizers import SGD
-from keras.layers import Dropout
 import math
-from sklearn.utils import class_weight
 from random import shuffle
 from neural_network import keras_prediction
+from collections import Counter
 
 ########################################################################
 ########################################################################
@@ -28,7 +15,6 @@ from neural_network import keras_prediction
 # A bagging neural network for prediction of disulfide connectivity
 # Testing on training dataset by 10 * k cross fold
 # Do this by taking out 10% of the PDBs for validation, test by bagging then take the next 10%
-# START BY DEFINING REQUIRED FUNCTIONS AND INPUTS
 #--------------------------------------------------------------------------
 ########################################################################
 ########################################################################
@@ -38,7 +24,7 @@ from neural_network import keras_prediction
 ########################################################################
 ########################################################################
 #--------------------------------------------------------------------------
-# Split columnt function
+# Split columnt function to be used for arrays
 #--------------------------------------------------------------------------
 ########################################################################
 ########################################################################
@@ -95,7 +81,6 @@ inputs = [
             'cys1_x3_array',
             'cys2_x3_array',
             'cys_diff',
-            #'seq_length',
             'no_disulfides',
             'connectivity_array']
 
@@ -118,6 +103,8 @@ nuclei_list = [
             'cys2_before Ha',
             'cys1_after Ha',
             'cys2_after Ha']
+
+
 ########################################################################
 ########################################################################
 #--------------------------------------------------------------------------
@@ -136,23 +123,23 @@ for line in get:
 ########################################################################
 #--------------------------------------------------------------------------
 # Read the connectivity database into a pandas dataframe
+# Replace all zero values for nuclei (that represents unassigned chemical shifts) witn NaNs
 #--------------------------------------------------------------------------
 ########################################################################
 ########################################################################
 
-df             = pd.read_csv            ('peptide_df_connectivity.csv', sep = ',', skipinitialspace = False)
-#df['cys_diff'] = df['cys1_residue_number'] - df['cys2_residue_number']
-df             = df.reset_index(drop=True)
+df = pd.read_csv            ('peptide_df_connectivity.csv', sep = ',', skipinitialspace = False)
+df = df.reset_index(drop=True)
 df = df.sample(frac=1).reset_index(drop=True)
+
 for nuclei in nuclei_list:
     df[nuclei] = df[nuclei].replace(0,np.nan)
 
 
-
 ########################################################################
 ########################################################################
 #--------------------------------------------------------------------------
-# Define the k_cross that will change the split to be validated(0-10, 10-20 ect)
+# Define the k_cross that will change the split to be validated (0-10, 10-20 ect)
 # Have 938 PDBs in the training set
 #--------------------------------------------------------------------------
 ########################################################################
@@ -163,12 +150,13 @@ while k_cross < 10:
 	print 'Validitating on k_cross ', k_cross
 	pdb_start = 95 * k_cross
 	pdb_stop  = pdb_start + 95
+
 	########################################################################
 	########################################################################
 	#--------------------------------------------------------------------------
 	# Define the training and validation database
-	# The validation/testing database will be the PDBs betweeen start/stop (93 in total)
-	# The training database will be the remaiing
+	# The validation/testing database will be the PDBs betweeen start/stop (95 in total)
+	# The training database will be the remaining values
 	#--------------------------------------------------------------------------
 
 	#--------------------------------------------------------------------------
@@ -195,19 +183,19 @@ while k_cross < 10:
 
 	training_df_reverse = training_df_init[inputs]
 
-    #########################B###############################################
-    ########################################################################
+  #########################B###############################################
+  ########################################################################
 	#--------------------------------------------------------------------------
 	# Rename the columns, changing Cys1 to Cys2 and Cys2 to Cys1
 	#--------------------------------------------------------------------------
-    ########################################################################
-    ########################################################################
+  ########################################################################
+  ########################################################################
 
 	training_df_reverse = training_df_reverse.rename(columns={
                                       'cys1_Ha'                   : 'cys2_Ha', 
                                       'cys2_Ha'                   : 'cys1_Ha', 
-                                      'cys1_N'                   : 'cys2_N', 
-                                      'cys2_N'                   : 'cys1_N', 
+                                      'cys1_N'                    : 'cys2_N', 
+                                      'cys2_N'                    : 'cys1_N', 
                                       'cys1_Hn'                   : 'cys2_Hn', 
                                       'cys2_Hn'                   : 'cys1_Hn', 
                                       'cys1_before Hn'            : 'cys2_before Hn', 
@@ -233,7 +221,7 @@ while k_cross < 10:
   ########################################################################
 	########################################################################
 	#--------------------------------------------------------------------------
-    # ENSURE INPUTS ARE IN THE SAME ORDER AND THEN JOIN THE TWO DATABAES TOGETHER
+  # ENSURE INPUTS ARE IN THE SAME ORDER AND THEN JOIN THE TWO DATABAES TOGETHER
 	#--------------------------------------------------------------------------
 	########################################################################
 	########################################################################
@@ -250,86 +238,86 @@ while k_cross < 10:
 	########################################################################
 	########################################################################
 
-	training_df             = split_columns(training_df,'cys1_ss_array')
-	training_df             = split_columns(training_df,'cys2_ss_array')    
-	training_df             = split_columns(training_df,'cys1_x1_array')
-	training_df             = split_columns(training_df,'cys2_x1_array')
-	training_df             = split_columns(training_df,'cys1_x3_array')
-	training_df             = split_columns(training_df,'cys2_x3_array')
+	training_df = split_columns(training_df,'cys1_ss_array')
+	training_df = split_columns(training_df,'cys2_ss_array')    
+	training_df = split_columns(training_df,'cys1_x1_array')
+	training_df = split_columns(training_df,'cys2_x1_array')
+	training_df = split_columns(training_df,'cys1_x3_array')
+	training_df = split_columns(training_df,'cys2_x3_array')
     
-    ########################################################################
-    ########################################################################
+  ########################################################################
+  ########################################################################
 	#--------------------------------------------------------------------------
-    # SHUFFLE THE TRAINING DF
-    #--------------------------------------------------------------------------
-    ########################################################################
+  # SHUFFLE THE TRAINING DF
+  #--------------------------------------------------------------------------
+  ########################################################################
 	########################################################################
 
 	training_df = training_df.sample(frac=1).reset_index(drop=True)
     
 
-    ########################################################################
-    ########################################################################
-    #--------------------------------------------------------------------
-    # DEFINE THE TESTING NETWORK.
-    # BASED ON THE PDBS IN THE LIST DEFINED AT THE START
-    #--------------------------------------------------------------------
-    
-    #----------------------------------
-    # Define the testing inputs, must be the same as the training inputs
-    #----------------------------------
-    ########################################################################
-    ########################################################################
+  ########################################################################
+  ########################################################################
+  #--------------------------------------------------------------------
+  # DEFINE THE TESTING NETWORK.
+  # BASED ON THE PDBS IN THE LIST DEFINED AT THE START
+  #--------------------------------------------------------------------
+  
+  #----------------------------------
+  # Define the testing inputs, must be the same as the training inputs
+  #----------------------------------
+  ########################################################################
+  ########################################################################
 
-	testing_df              = df.loc[df['PDB'].isin(pdb_list[pdb_start:pdb_stop])]
-	testing_df              = testing_df.reset_index(drop=True)
-	testing_df              = testing_df[inputs]
+	testing_df = df.loc[df['PDB'].isin(pdb_list[pdb_start:pdb_stop])]
+	testing_df = testing_df.reset_index(drop=True)
+	testing_df = testing_df[inputs]
 
-    ########################################################################
-    ########################################################################
-    #----------------------------------
-    # Split the columns of the testing dataframe
-    #----------------------------------
-    ########################################################################
-    ########################################################################
+  ########################################################################
+  ########################################################################
+  #----------------------------------
+  # Split the columns of the testing dataframe
+  #----------------------------------
+  ########################################################################
+  ########################################################################
     
 
-    #########################
-    ##### WARNING ###########
-    #########################
-    # Must split them in the same order as the training dataframe
+  #########################
+  ##### WARNING ###########
+  #########################
+  # Must split them in the same order as the training dataframe
     
-	testing_df             = split_columns(testing_df,'cys1_ss_array')
-	testing_df             = split_columns(testing_df,'cys2_ss_array')
-	testing_df             = split_columns(testing_df,'cys1_x1_array')
-	testing_df             = split_columns(testing_df,'cys2_x1_array')
-	testing_df             = split_columns(testing_df,'cys1_x3_array')
-	testing_df             = split_columns(testing_df,'cys2_x3_array')
+	testing_df = split_columns(testing_df,'cys1_ss_array')
+	testing_df = split_columns(testing_df,'cys2_ss_array')
+	testing_df = split_columns(testing_df,'cys1_x1_array')
+	testing_df = split_columns(testing_df,'cys2_x1_array')
+	testing_df = split_columns(testing_df,'cys1_x3_array')
+	testing_df = split_columns(testing_df,'cys2_x3_array')
     
-    ########################################################################
-    ########################################################################
-    #----------------------------------
-    # Define the testing target and inputs
-    #----------------------------------
-    ########################################################################
-    ########################################################################
+  ########################################################################
+  ########################################################################
+  #----------------------------------
+  # Define the testing target and inputs
+  #----------------------------------
+  ########################################################################
+  ########################################################################
     
-	testing_target         = testing_df[['connectivity_array']]
-	testing_target         = split_columns(testing_target,'connectivity_array')
-	testing_inputs         = testing_df.drop('connectivity_array',1)
-	testing_inputs         = testing_inputs.astype(float)
-	testing_target         = testing_target.astype(float)
-	testing_target         = testing_target.as_matrix()
+	testing_target = testing_df[['connectivity_array']]
+	testing_target = split_columns(testing_target,'connectivity_array')
+	testing_inputs = testing_df.drop('connectivity_array',1)
+	testing_inputs = testing_inputs.astype(float)
+	testing_target = testing_target.astype(float)
+	testing_target = testing_target.as_matrix()
 
 
-  	########################################################################
-  	########################################################################
-  	#----------------------------------
-  	# Create dictionary to store results for each bagging ensemble
-  	#----------------------------------
-  	########################################################################
-  	########################################################################
-	truex        = [round(x[1]) for x in testing_target]
+  ########################################################################
+  ########################################################################
+  #----------------------------------
+  # Create dictionary to store results for each bagging ensemble
+  #----------------------------------
+  ########################################################################
+  ########################################################################
+	truex          = [round(x[1]) for x in testing_target]
   	results      = {}
   	results_prob = {}
   	for value in range(len(truex)):
@@ -341,17 +329,18 @@ while k_cross < 10:
 	########################################################################
 	#----------------------------------
 	# START THE BAGGING PROCESS
-	# TAKE 80% of the training_df, train and predict. 
-	# Then increase by 10%, take 10%-90% and train.... 30%-100% + 0-10%
+	# TAKE 90% of the training_df, train and predict. 
+	# Then increase by 5%, take 05%-95% and train.... 
 	# The ensemble function defined at the start does this 
 	#----------------------------------
 	########################################################################
 	########################################################################
-	fract =  (float(len(training_df)) * 0.9)
-	fract = round(int(fract))
-	start = 0
-	s_fract = (float(len(training_df)) * 0.05)
-	s_fract = round(int(s_fract))
+  fract   =  (float(len(training_df)) * 0.9)
+  fract   = round(int(fract))
+  start   = 0
+  s_fract = (float(len(training_df)) * 0.05)
+  s_fract = round(int(s_fract))
+
 	########################################################################
 	########################################################################
 	#--------------------------------------------------------------------------
@@ -371,14 +360,15 @@ while k_cross < 10:
 			ensemble2 = training_dfx[:int(stop)-len(training_dfx)]
 			ensemble = pd.concat([ensemble1, ensemble2])
 		return (ensemble)
-	i = 0
+	
+  i = 0
 	while i <9:
 		print 'TRAINING ITERATION',i 
 		print 'start',start,'stop',fract
 		ensemble_df    = ensemble(training_df, start,fract)
 		print 'ENSMEBLE DF'
 
-   		########################################################################
+   	########################################################################
 		########################################################################
 		#----------------------------------
 		# Use keras_prediciton from the neural_network module that defines the nn for predction
@@ -407,21 +397,21 @@ while k_cross < 10:
 		start = start + s_fract        
 		i = i+1
     
-	from collections import Counter
-   	########################################################################
-    ########################################################################
-    #----------------------------------
-    # Start to analyse the resuls
-    # Most common function will return the most common prediciton out of the 10 predictions
-    #----------------------------------
-    ########################################################################
-    #######################################################################
+
+  ########################################################################
+  ########################################################################
+  #----------------------------------
+  # Start to analyse the resuls
+  # Most common function will return the most common prediciton out of the 9 predictions
+  #----------------------------------
+  ########################################################################
+  #######################################################################
 	def Most_Common(lst):
 		data = Counter(lst)
 		return data.most_common(1)[0][0]
 
-	finalx 			  = []
-	average_prob_list = []
+  finalx            = []
+  average_prob_list = []
 
 	for value in range(len(truex)):
 		finalx.append(Most_Common(results[str(value)]))
@@ -465,22 +455,17 @@ while k_cross < 10:
  	get.write('\n')
     
  	print '0.7---- Accuracy', accuracy_score(target_prob_7, prediction_prob_7),'MCC', matthews_corrcoef(target_prob_7, prediction_prob_7),'Freq',float(len( prediction_prob_7)) / float(len(truex))
-    
  	get.write('0.7---- Accuracy ' +str(accuracy_score(target_prob_7, prediction_prob_7))+' MCC '+str(matthews_corrcoef(target_prob_7, prediction_prob_7))+' Freq '+ str(float(len(prediction_prob_7)) / float(len(truex))))
-
  	get.write('\n')
 
  	print '0.8---- Accuracy', accuracy_score(target_prob_8, prediction_prob_8),'MCC', matthews_corrcoef(target_prob_8, prediction_prob_8),'Freq',float(len( prediction_prob_8)) / float(len(truex))
-
  	get.write('0.8---- Accuracy ' +str(accuracy_score(target_prob_8, prediction_prob_8))+' MCC '+str(matthews_corrcoef(target_prob_8, prediction_prob_8))+' Freq '+ str(float(len(prediction_prob_8)) / float(len(truex))))
- 
  	get.write('\n')   
     
 	print '0.9---- Accuracy', accuracy_score(target_prob_9, prediction_prob_9),'MCC', matthews_corrcoef(target_prob_9, prediction_prob_9),'Freq',float(len( prediction_prob_9)) / float(len(truex))
-    
 	get.write('0.9---- Accuracy ' +str(accuracy_score(target_prob_9, prediction_prob_9))+' MCC '+str(matthews_corrcoef(target_prob_9, prediction_prob_9))+' Freq '+ str(float(len(prediction_prob_9)) / float(len(truex))))
- 
 	get.write('\n')
 	get.close()
+
 	k_cross = k_cross +1
     
