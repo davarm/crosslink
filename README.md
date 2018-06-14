@@ -8,7 +8,13 @@ Finding the native connectivity is a factorial problem. A peptide with 3 disulfi
 We recently showed that disulfides like to adopt specific shapes (called configurations) based on their five dihedral angles, and that the configuration can be predicted based on chemical shift inputs (https://github.com/davarm/DISH_prediction). Expanding on this concept, we developed a multi-stage workflow called CrossLink, that predicts the configuration of individual cysteine residues. These predictions in combination with chemical shifts are then used as inputs in a neural network for the prediction of the connectivity state for cysteine isomers. The program achieved a baseline accuracy of 85% and >95% for high probability predictions. 
 
 ## Method
+The workflow of the program is :
+  - Start with a peptide sequence, with no knowledge of the connectivity framework
+  - Using a support vetor machine developed in SkLearn, predict the X3 angle for each individual cysteine. The X3 angle can either be +90     or -90 degrees
+  - Generate all possible pairings (isomers) of cysteine residues. Pairings where the X3 angles do not match are removed (as this is a shared bond,     therefore should always be the same
+  - For each individual pairing
 
+![Alt text](./images/method.png) 
 # Datasets
 
 # SVM
