@@ -14,12 +14,12 @@ The workflow of the program is :
   - Generate all possible pairings (isomers) of cysteine residues. Pairings where the X3 angles do not match are removed (as this is a         shared bond, therefore should always be the same)
   - For each individual pairing predict if cysteines are bonded or not based on a neural network. Inputs include chemical shift and           structural inputs
 
-![Alt text](./images/method.png) 
-# Datasets
-
-# SVM
-
-# Neural Network 
+![Alt text](./images/method.png)
+![Alt text](./images/accuracy.png)
 
 
-## Use
+# Use
+- The suppor vector machine was developed in scikit learn
+- The neural network was developed with Theano using Keras frontend
+
+
