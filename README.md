@@ -10,9 +10,9 @@ We recently showed that disulfides like to adopt specific shapes (called configu
 ## Method
 The workflow of the program is :
   - Start with a peptide sequence, with no knowledge of the connectivity framework
-  - Using a support vetor machine developed in SkLearn, predict the X3 angle for each individual cysteine. The X3 angle can either be +90     or -90 degrees
-  - Generate all possible pairings (isomers) of cysteine residues. Pairings where the X3 angles do not match are removed (as this is a shared bond,     therefore should always be the same
-  - For each individual pairing
+  - Using a support vetor machine developed in scikit-learn, predict the X3 angle for each individual cysteine. The X3 angle can either be     +90 or -90 degrees
+  - Generate all possible pairings (isomers) of cysteine residues. Pairings where the X3 angles do not match are removed (as this is a         shared bond, therefore should always be the same)
+  - For each individual pairing predict if cysteines are bonded or not based on a neural network. Inputs include chemical shift and           structural inputs
 
 ![Alt text](./images/method.png) 
 # Datasets
