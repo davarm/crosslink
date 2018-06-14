@@ -22,7 +22,14 @@ The workflow of the program is :
 - The neural network was developed with Theano using Keras frontend
 
 ### Generating Inputs (user directory)
+(In this example we will use peptide PDB 2n8e)
 The inputs uses adjusted chemical shifts as well as predicted backbone dihedral angles from the Talos-N program (Shen and Bax, 2013). In peptides directory add new file, with output from Talos-N (with the predAdjCS.tab and pred.tab files).
-Run generating_crosslink_inputs.py
-This will produce a file called peptide_crosslink.csv. In this file YOU MUST MANUALLY ENTER X1 angles as either -60, 60 or 180.
-Then run the connectivity_prediction.py file
+Run: python generating_crosslink_inputs.py 2n8e
+This will produce a file called 2n8e_crosslink.csv. In this file YOU MUST MANUALLY ENTER X1 angles as either -60, 60 or 180. Save the file
+
+### X3 and Connectivity Prediction
+Run:connectivity_prediction.py file 2n8e
+This script will then call the modules to:
+  Predict X3 Angles
+  Generate all theoretical cysteine isomers and required inputs
+  Run neural network and makea  prediction for connectivity for all individual isomers
