@@ -11,7 +11,7 @@ from keras.layers.normalization import BatchNormalization
 from keras.models import load_model
 
 path = "./neural_network/"
-training_inputs = pd.read_csv(path+'training_database.csv')
+training_inputs = pd.read_csv('./modules/training_database.csv')
 
 
 #########################################################################################################
@@ -20,8 +20,8 @@ training_inputs = pd.read_csv(path+'training_database.csv')
 #########################################################################################################
 
 def keras_prediction(testing_inputs,i):
-    testing_inputs_scaled  = testing_inputs.copy(deep = True)
-    column_names = list(testing_inputs_scaled)
+    testing_inputs_scaled = testing_inputs.copy(deep = True)
+    column_names          = list(testing_inputs_scaled)
 
     #########################################################################################################
     # Scale the data by substracting the mean and then dividing by the standard deviation for each column
@@ -30,7 +30,6 @@ def keras_prediction(testing_inputs,i):
     #####################################################################################################
     for name in column_names:
         meanx = training_inputs[name].mean()
-        #print name,meanx
         stdx                                = training_inputs[name].std()
         testing_inputs_scaled[name       ] -= meanx
         testing_inputs_scaled[name       ] /= stdx
@@ -44,11 +43,11 @@ def keras_prediction(testing_inputs,i):
     #########################################################################################################
     # Read the saved models in neural network directory and then compile
     #########################################################################################################
-    model                 = load_model(path+str(i)+"_model.h5")
-    model.compile(loss    ='categorical_crossentropy', optimizer='Adam', metrics=['accuracy'])
-    prediction            = model.predict(testing_inputs_scaled)
-    predx                 = [round(x[1]) for x in prediction]
-    probability_prediction              = []
+    model                  = load_model(path+str(i)+"_model.h5")
+    model.compile(loss     ='categorical_crossentropy', optimizer='Adam', metrics=['accuracy'])
+    prediction             = model.predict(testing_inputs_scaled)
+    predx                  = [round(x[1]) for x in prediction]
+    probability_prediction = []
     print prediction
     
     for _ in prediction:

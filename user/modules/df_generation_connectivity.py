@@ -2,13 +2,13 @@ import pandas as pd
 import numpy as np
 import itertools
 import os	
-from pandas import Series														
+from pandas import Series
+														
 #-----------
 #To be used for creating hot arrays-------------------------------------------------------------
 #Read the disulfide database into a pandas dataframe
 #------------------------------------------------------------------------
 def split_columns(dataframe,hot_array):
-    # print dataframe[hot_array][0]
     length  = dataframe[hot_array][0]
     length  = len(length.split(','))
     s       = dataframe[hot_array].str.split('').apply(Series, 1).stack	()
@@ -63,20 +63,14 @@ testing_input_list = [
                    'cys2_x3_array1']
 
 
-def generate_connectivity(peptide):
-	df = pd.read_csv(peptide+'_inputs.csv', sep = ',',skipinitialspace = False)
-	# Changing all unassigned chemical shifts to 0
-
+def generate_connectivity(df,peptide):
 	
 	
 	
 	#------------------------------------------------------------------------
 	# Create df_split, where divide the cysteines into invidiual residues
 	#Use dictionary to make sure columns are the same
-	#------------------------------------------------------------------------
-	#FOR THE FIRST CYS
-	
-	
+	#----------------------------------------------------------------------
 	
 	
 	df_  = pd.DataFrame(index = None)
@@ -122,17 +116,14 @@ def generate_connectivity(peptide):
 			"ss_array"			:df["ss_array"]})		 		                                  
 	
 	
-	df_split = df_.append(df__, ignore_index = True)
-	
-	
-	final_database= pd.DataFrame([])#,columns = final_columns)
-	
-	cys_list=[]
-	cys_list=(df_split['residue_number']).tolist()
-	cys_list = list(set(cys_list))
-	cys_list=sorted(cys_list, key=lambda x: float(x),reverse=True)
-	possible_connections=[]
-	possible_connections=list(itertools.combinations(cys_list, 2))
+	df_split             = df_.append(df__, ignore_index = True)
+	final_database       = pd.DataFrame([])#,columns = final_columns)	
+	cys_list             = []
+	cys_list             = (df_split['residue_number']).tolist()
+	cys_list             = list(set(cys_list))
+	cys_list             = sorted(cys_list, key=lambda x: float(x),reverse=True)
+	possible_connections = []
+	possible_connections = list(itertools.combinations(cys_list, 2))
 	print possible_connections
 	
 	
@@ -147,36 +138,29 @@ def generate_connectivity(peptide):
 		cys2_shifts = cys2_shifts.reset_index(drop=True)
 		
 		joined		= pd.concat(dict(cys1_shifts = cys1_shifts, cys2_shifts = cys2_shifts),axis=1)
+		
 		#------------------------------------------------------------------------
 		# IF PDB, CYS1 AND CYS2 ARE IN THE ORIGINAL DF, MEANS THEY ARE A TRUE CONNECTION
 		#------------------------------------------------------------------------
 	
-		
-		final_database=final_database.append(pd.DataFrame(joined,index=[0]), ignore_index=True)
+		final_database = final_database.append(pd.DataFrame(joined,index=[0]), ignore_index=True)
 	
 	#CHANGING COLUMN NAMES
-	new_names=[]
-	xx=list(final_database.columns.values)
-	for _ in xx:
-		cys_number= _[0]
+	new_names    = []
+	column_names = list(final_database.columns.values)
+	for name in column_names:
+		cys_number = name[0]
 	
 		if cys_number == 'cys1_shifts' or cys_number=='cys2_shifts':
-			new_names.append(''.join([str(cys_number[0:5]), str(_[1])]))
+			new_names.append(''.join([str(cys_number[0:5]), str(name[1])]))
 		else:
-			new_names.append(str(_[0]))
+			new_names.append(str(name[0]))
 	
 	
 	
-	#new_column_names=[]
-	#for i,_ in enumerate(originals):
-	#	x=str(test[i])
-	#	new = str(_[0:5])
-	#	new_column_names.append(''.join([new, x]))
-	
-	##final_database = final_database.drop(final_database.iloc[0])
+
 	final_database.columns = new_names
-	
-	final_database = final_database[[
+	final_database         = final_database[[
 	"cys1_residue_number",
 	"cys2_residue_number",
 	"cys1_x1",			
@@ -215,7 +199,7 @@ def generate_connectivity(peptide):
 	final_database             = final_database.query ('cys1_x3 == cys2_x3')    
 	final_database             = final_database.reset_index(drop=True)
 	
-	final_database['PDB'       ] = peptide
+	final_database['PDB'       ] = '2n8e'
 	final_database['no_disulfides'] = df['no_disulfides']
 	final_database['cys_diff'  ]  = final_database['cys1_residue_number'] - final_database['cys2_residue_number']
 	
@@ -226,5 +210,6 @@ def generate_connectivity(peptide):
 	final_database             = split_columns(final_database,'cys1_x3_array')
 	final_database             = split_columns(final_database,'cys2_x3_array')
 	final_database             = final_database[testing_input_list]   
-	final_database.to_csv(peptide+'_connectivity.csv',index=False)	
+	final_database.to_csv(peptide+'_connectivity_inputs.csv',index = 'False')
+	return(final_database)
 	

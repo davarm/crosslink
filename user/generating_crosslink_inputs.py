@@ -11,12 +11,12 @@ import os,sys
 # The program does not predict termini cysteines and therefore they are excluded
 # If chemical shifts are unassigned they are designated as '0'
 #
-#				: ./generating_DISH_inputs.py 2n8e
+#				: ./generating_crosslink_inputs.py 2n8e
 #
 #
 
 peptide = sys.argv[1]
-path = "./peptides/"+peptide
+path    = "./peptides/"+peptide
 
 
 #----------------------------------
@@ -42,20 +42,19 @@ for k,residue in enumerate(sequence):
 #------------------------------------------------------------------------
 # Create ordered dictionaries to store all relevant information
 #------------------------------------------------------------------------
-cysteine_dict            =  OrderedDict()
-nuclei_list = ['HA','CB','CA','HN','N']
-before_nuclei_list = ['HA','CA','HN']
-
-cysteine_dict['PDB'    ] = []
-cysteine_dict['residue'] = []
-cysteine_dict['ss_array' ] = []
+cysteine_dict             =  OrderedDict()
+nuclei_list               = ['HA','CB','CA','HN','N']
+before_nuclei_list        = ['HA','CA','HN']
+cysteine_dict['PDB'     ] = []
+cysteine_dict['residue' ] = []
+cysteine_dict['ss_array'] = []
 	
 for nuclei in nuclei_list:
 	cysteine_dict[nuclei] = [] 
 
 for nuclei in before_nuclei_list:	
 	cysteine_dict['before_' + nuclei] = []
-	cysteine_dict['after_' + nuclei] = []
+	cysteine_dict['after_' + nuclei ] = []
 	
 
 # Initiate dataframe to store information
@@ -70,7 +69,7 @@ df = pd.DataFrame()
 #---------------------------------------------------------------------------------
 
 adjusted_chemical_shift_dict = {}
-get                          = open(path+'/predAdjCS.tab','r') 
+get = open(path+'/predAdjCS.tab','r') 
 for line in get:
 		line  = " ".join(line.split())
 		if 'REMARK' in line:
@@ -103,9 +102,8 @@ secondary_structure_list = [
 	'H',
 	'E',
 	'L'] 
-#print ss
 
-get                          = open(path+'/predSS.tab','r') 
+get = open(path+'/predSS.tab','r') 
 for line in get:
 		line  = " ".join(line.split())
 		if 'REMARK' in line:
@@ -179,8 +177,9 @@ for cysteine in cys_residues:
 #------------------------------------------------------------------------
 
 for key in cysteine_dict:
-	xx = np.array(cysteine_dict[key])
-	df[key]=	(xx)
+	value   = np.array(cysteine_dict[key])
+	df[key] = (value)
+
 df['no_disulfides'] = len(cys_residues) / 2
 df['x1'] = -60
 df.to_csv(peptide+'_crosslink.csv',index=False)
